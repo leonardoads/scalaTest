@@ -10,7 +10,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
 
     //This code check that a IllegalArgumentException is thrown by the call new PhoneBoook(owner = null)
     the[IllegalArgumentException] thrownBy {
-      new PhoneBoook(owner = null)
+      new PhoneBook(owner = null)
     } should have message "requirement failed: Phonebook owner cannot be null"
   }
 
@@ -19,7 +19,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
    * add new contact is the name of a case test inside phonebook
    */
   it should "add new contact" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     book.contacts shouldBe empty
 
@@ -34,7 +34,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
    * not add repeated contacts is the name of a case test inside phonebook
    */
   it should "not add repeated contacts" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     book.contacts shouldBe empty
 
@@ -56,7 +56,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
    * not add null contacts is the name of a case test inside phonebook
    */
   it should "not add null contacts" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     book.contacts shouldBe empty
 
@@ -74,7 +74,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
   }
 
   it should "add phone number to contact" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     val tales = new User("tales")
     val talesNumber = 12345678
@@ -87,7 +87,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
   }
 
   it should "not add repeated phone number to contact" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     val tales = new User("tales")
     val talesNumber = 12345678
@@ -105,7 +105,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
   }
 
   it should "not add phone number to non existent contact" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     val tales = new User("tales")
     val talesNumber = 12345678
@@ -118,7 +118,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
   }
 
   it should "search for contacts" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     val tales = new User("tales")
     val talesNumber = 12345678
@@ -155,11 +155,11 @@ class PhoneBookTest extends FlatSpec with Matchers {
     talesSearch should contain inOrderOnly(tales, talesBoy)
     talesSearch should have size 2
 
-    val talesbSearch = book findContact "talesB"
+    val talesbSearch = book findContact "tales B"
     talesbSearch should contain only talesBoy
     talesbSearch should have size 1
 
-    val aSearch = book findContact "a"
+    val aSearch = book findContact "an"
     aSearch should contain inOrderOnly(anderson, andryw)
     aSearch should have size 2
 
@@ -169,7 +169,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
   }
 
   it should "not search for null user" in {
-    val book = new PhoneBoook(owner = new User(name = "igleson"))
+    val book = new PhoneBook(owner = new User(name = "igleson"))
 
     the[IllegalArgumentException] thrownBy {
       book findContact null
