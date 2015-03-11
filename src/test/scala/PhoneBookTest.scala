@@ -21,12 +21,12 @@ class PhoneBookTest extends FlatSpec with Matchers {
   it should "add new contact" in {
     val book = new PhoneBoook(owner = new User(name = "igleson"))
 
-    book.contacts.isEmpty should be equals true
+    book.contacts shouldBe empty
 
     val tales = new User("tales")
     book addContact tales
-    book.contacts.size should be equals 1
-    book.contacts.head should be equals tales
+    book.contacts should have size 1
+    book.contacts should contain(tales)
   }
 
   /**
@@ -36,19 +36,19 @@ class PhoneBookTest extends FlatSpec with Matchers {
   it should "not add repeated contacts" in {
     val book = new PhoneBoook(owner = new User(name = "igleson"))
 
-    book.contacts.isEmpty should be equals true
+    book.contacts shouldBe empty
 
     val tales = new User("tales")
     book addContact tales
-    book.contacts.size should be equals 1
-    book.contacts.head should be equals tales
+    book.contacts should have size 1
+    book.contacts should contain(tales)
 
     the[IllegalArgumentException] thrownBy {
       book addContact tales
     } should have message "requirement failed: Cannot add repeated contacts"
 
-    book.contacts.size should be equals 1
-    book.contacts.head should be equals tales
+    book.contacts should have size 1
+    book.contacts should contain(tales)
   }
 
   /**
@@ -58,19 +58,19 @@ class PhoneBookTest extends FlatSpec with Matchers {
   it should "not add null contacts" in {
     val book = new PhoneBoook(owner = new User(name = "igleson"))
 
-    book.contacts.isEmpty should be equals true
+    book.contacts shouldBe empty
 
     val tales = new User("tales")
     book addContact tales
-    book.contacts.size should be equals 1
-    book.contacts.head should be equals tales
+    book.contacts should have size 1
+    book.contacts should contain(tales)
 
     the[IllegalArgumentException] thrownBy {
       book addContact null
     } should have message "requirement failed: Contact cannot be null"
 
-    book.contacts.size should be equals 1
-    book.contacts.head should be equals tales
+    book.contacts should have size 1
+    book.contacts should contain(tales)
   }
 
   it should "add phone number to contact" in {
@@ -83,7 +83,7 @@ class PhoneBookTest extends FlatSpec with Matchers {
 
     book.addPhoneNumber("tales", talesNumber)
 
-    tales.phones contains talesNumber should be equals true
+    tales.phones should contain(talesNumber)
   }
 
   it should "not add repeated phone number to contact" in {
@@ -100,8 +100,8 @@ class PhoneBookTest extends FlatSpec with Matchers {
       book.addPhoneNumber("tales", talesNumber)
     } should have message "requirement failed: Cannot add repeated number to a contact"
 
-    tales.phones contains talesNumber should be equals true
-    tales.phones.size should be equals 1
+    tales.phones should contain(talesNumber)
+    tales.phones should have size 1
   }
 
   it should "not add phone number to non existent contact" in {
@@ -146,17 +146,26 @@ class PhoneBookTest extends FlatSpec with Matchers {
     book addPhoneNumber("anderson", andersonNumber)
 
 
-    (book findContact "tal") should be equals List(tales, talesBoy)
+    val talSearch = book findContact "tal"
+    talSearch should contain inOrderOnly(tales, talesBoy)
+    talSearch should have size 2
 
-    (book findContact "tales") should be equals List(tales, talesBoy)
 
-    (book findContact "talesb") should be equals List(talesBoy)
+    val talesSearch = book findContact "tales"
+    talesSearch should contain inOrderOnly(tales, talesBoy)
+    talesSearch should have size 2
 
-    (book findContact "talesB") should be equals List(talesBoy)
+    val talesbSearch = book findContact "talesB"
+    talesbSearch should contain only talesBoy
+    talesbSearch should have size 1
 
-    (book findContact "a") should be equals List(anderson, andryw)
+    val aSearch = book findContact "a"
+    aSearch should contain inOrderOnly(anderson, andryw)
+    aSearch should have size 2
 
-    (book findContact "") should be equals List(anderson, andryw, tales, talesBoy)
+    val emptySearch = book findContact ""
+    emptySearch should contain inOrderOnly(anderson, andryw, tales, talesBoy)
+    emptySearch should have size 4
   }
 
   it should "not search for null user" in {
