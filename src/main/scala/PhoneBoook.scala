@@ -15,8 +15,6 @@ class PhoneBook(owner: User) {
   def findContact(name: String) = {
     require(name!=null, "Cannot search for a null user")
     val ret = contacts filter({x:User => x.name.toLowerCase.contains(name.toLowerCase())})
-    print("[SOMETHING 1] ")
-    print(ret.toList.sortBy(_.name))
     ret.toList.sortBy(_.name)
   }
 
@@ -40,8 +38,6 @@ class PhoneBook(owner: User) {
       case x: Some[User] => throw new IllegalArgumentException("requirement failed: Cannot add repeated contacts")
       case None => contacts = user :: contacts
     }
-    print("[SOMETHING] ")
-    print(ret)
     ret
   }
 
