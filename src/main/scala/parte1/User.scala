@@ -1,8 +1,19 @@
+package parte1
+
 /**
  * Created by leonardo on 10/03/15.
  */
 class User(var name:String) {
   var phones = List[Int]()
+
+  def addName(user: User) = {
+    name = user.name
+  }
+
+  implicit def stringToUser(name: String) ={
+    new User(name)
+  }
+
   def findPhone( number: Int): Option[Int] = {
     val ret = phones find {
       case x: Int if x == number => return Some(x)
@@ -21,5 +32,12 @@ class User(var name:String) {
   }
   override def toString(): String ={
     (name, phones).toString()
+  }
+
+  def main(args: Array[String]) {
+    val a = new User("João");
+    print(a.name)
+    a.addName("Luis")
+    print(a.name)
   }
 }

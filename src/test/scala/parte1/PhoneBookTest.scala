@@ -1,3 +1,5 @@
+package parte1
+
 import org.scalatest._
 
 class PhoneBookTest extends FlatSpec with Matchers {
